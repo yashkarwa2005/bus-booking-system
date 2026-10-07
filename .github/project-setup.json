@@ -1,0 +1,224 @@
+{
+  "project_name": "Bus Booking System — Scrum Board",
+  "project_description": "Agile Methodologies (AM) PBL — Scrum Backlog & Kanban Board for Bus Booking System",
+  "kanban_columns": [
+    "Backlog",
+    "To Do",
+    "In Progress",
+    "Review / Testing",
+    "Done"
+  ],
+  "labels": [
+    {
+      "name": "priority: high",
+      "color": "d73a4a",
+      "description": "High Priority - Must Have"
+    },
+    {
+      "name": "priority: medium",
+      "color": "fbca04",
+      "description": "Medium Priority - Should Have"
+    },
+    {
+      "name": "priority: low",
+      "color": "0e8a16",
+      "description": "Low Priority - Could Have"
+    },
+    {
+      "name": "type: user-story",
+      "color": "1d76db",
+      "description": "Scrum User Story card"
+    },
+    {
+      "name": "type: task",
+      "color": "5319e7",
+      "description": "Technical Sprint Task"
+    },
+    {
+      "name": "type: testing",
+      "color": "006b75",
+      "description": "Automated Testing & QA"
+    },
+    {
+      "name": "type: documentation",
+      "color": "0075ca",
+      "description": "Architecture & Scrum Documentation"
+    },
+    {
+      "name": "status: backlog",
+      "color": "cfd3d7",
+      "description": "In Product Backlog"
+    },
+    {
+      "name": "status: todo",
+      "color": "1d76db",
+      "description": "Committed to Sprint To Do"
+    },
+    {
+      "name": "status: in-progress",
+      "color": "d93f0b",
+      "description": "Currently in development"
+    },
+    {
+      "name": "status: review-testing",
+      "color": "a2eeef",
+      "description": "Under testing and review"
+    },
+    {
+      "name": "status: done",
+      "color": "0e8a16",
+      "description": "Completed and verified against DoD"
+    }
+  ],
+  "milestones": [
+    {
+      "number": 1,
+      "title": "Sprint 1 - Identity, Authentication & Architecture",
+      "description": "Deliver user registration, authentication and database architecture."
+    },
+    {
+      "number": 2,
+      "title": "Sprint 2 - Bus Fleet, Route Network & Schedules",
+      "description": "Deliver bus fleet catalog, route mapping, and timetable scheduling."
+    },
+    {
+      "number": 3,
+      "title": "Sprint 3 - Corridor Search & Atomic Booking Lock",
+      "description": "Implement origin-destination search and atomic reservation lock."
+    },
+    {
+      "number": 4,
+      "title": "Sprint 4 - Cancellation & Seat Recovery",
+      "description": "Support full ticket lifecycle with automatic seat vacancy recycling."
+    },
+    {
+      "number": 5,
+      "title": "Sprint 5 - Scrum Engine, Tests & Viva Release",
+      "description": "Integrate in-app Scrum/Kanban board, test coverage, and final viva release."
+    }
+  ],
+  "issues": [
+    {
+      "code": "US-01",
+      "title": "[US-01] Passenger & Operator Registration",
+      "body": "### User Story\n**As a** new passenger or bus operator,  \n**I want** to register an account using my username, email, and password,  \n**So that** I can securely access the bus booking platform.\n\n### Story Points: 3 | Priority: High (Must Have)\n### Target Sprint: Sprint 1\n\n### Acceptance Criteria\n- [x] Validates unique username and email.\n- [x] Hashes passwords securely with salted SHA-256.\n- [x] Prevents duplicate accounts.\n- [x] Stores role (passenger, operator, admin).",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 1,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-02",
+      "title": "[US-02] Credential Authentication & Role Session",
+      "body": "### User Story\n**As a** registered user,  \n**I want** to log in using my credentials,  \n**So that** the system loads my authorized role interface.\n\n### Story Points: 3 | Priority: High (Must Have)\n### Target Sprint: Sprint 1\n\n### Acceptance Criteria\n- [x] Verifies salted SHA-256 hash against stored record.\n- [x] Rejects invalid credentials cleanly.\n- [x] Assigns session role (passenger, operator, admin).",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 1,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-03",
+      "title": "[US-03] Bus Fleet & Seating Specifications Management",
+      "body": "### User Story\n**As a** bus operator,  \n**I want** to add and manage buses with seating configurations,  \n**So that** operators can register fleet capacity.\n\n### Story Points: 5 | Priority: High (Must Have)\n### Target Sprint: Sprint 2\n\n### Acceptance Criteria\n- [x] Registers bus registration number, bus name, and type.\n- [x] Configures seat capacity between 10 and 60 seats.\n- [x] Rejects duplicate bus numbers.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 2,
+      "story_points": 5,
+      "status": "Done"
+    },
+    {
+      "code": "US-04",
+      "title": "[US-04] Route Network & Distance Definition",
+      "body": "### User Story\n**As a** bus operator,  \n**I want** to define intercity travel corridors with distance and duration,  \n**So that** the system maps valid travel options.\n\n### Story Points: 5 | Priority: High (Must Have)\n### Target Sprint: Sprint 2\n\n### Acceptance Criteria\n- [x] Validates origin and destination cities.\n- [x] Prevents identical origin and destination.\n- [x] Records distance (km) and travel duration (hours).",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 2,
+      "story_points": 5,
+      "status": "Done"
+    },
+    {
+      "code": "US-05",
+      "title": "[US-05] Bus Timetable & Fare Scheduling",
+      "body": "### User Story\n**As a** bus operator,  \n**I want** to publish bus timetables with departure time, arrival time, and fare,  \n**So that** passengers can view and book scheduled departures.\n\n### Story Points: 3 | Priority: High (Must Have)\n### Target Sprint: Sprint 2\n\n### Acceptance Criteria\n- [x] Links bus, route, travel date, departure time, and fare.\n- [x] Auto-generates seat inventory records upon schedule creation.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 2,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-06",
+      "title": "[US-06] Search Buses by Origin, Destination & Date",
+      "body": "### User Story\n**As a** passenger,  \n**I want** to search available buses by source, destination, and travel date,  \n**So that** I can compare departures and fares.\n\n### Story Points: 5 | Priority: High (Must Have)\n### Target Sprint: Sprint 3\n\n### Acceptance Criteria\n- [x] Case-insensitive search by origin and destination.\n- [x] Displays bus name, type, departure, fare, and available seats.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 3,
+      "story_points": 5,
+      "status": "Done"
+    },
+    {
+      "code": "US-07",
+      "title": "[US-07] Real-Time Seat Layout & Vacancy Inspection",
+      "body": "### User Story\n**As a** passenger,  \n**I want** to view a visual seat layout showing booked vs open seats,  \n**So that** I can select my preferred seat.\n\n### Story Points: 3 | Priority: High (Must Have)\n### Target Sprint: Sprint 3\n\n### Acceptance Criteria\n- [x] Returns seat matrix distinguishing booked from open seats.\n- [x] Classifies window vs aisle seats.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 3,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-08",
+      "title": "[US-08] Atomic Seat Reservation & Double-Booking Lock",
+      "body": "### User Story\n**As a** passenger,  \n**I want** to reserve my chosen seat atomically,  \n**So that** no other passenger can double-book the same seat.\n\n### Story Points: 8 | Priority: High (Must Have)\n### Target Sprint: Sprint 3\n\n### Acceptance Criteria\n- [x] Atomic SQLite transaction locking seat immediately.\n- [x] Concurrency check aborting conflicting bookings.\n- [x] Unique booking reference generated (BK-YYYYMMDD-XXXX).",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 3,
+      "story_points": 8,
+      "status": "Done"
+    },
+    {
+      "code": "US-09",
+      "title": "[US-09] Passenger Itinerary History & E-Ticket Details",
+      "body": "### User Story\n**As a** passenger,  \n**I want** to view my active and past booking history,  \n**So that** I have proof of travel and itinerary reference.\n\n### Story Points: 3 | Priority: Medium (Should Have)\n### Target Sprint: Sprint 4\n\n### Acceptance Criteria\n- [x] Returns all bookings for authenticated passenger.\n- [x] Shows bus, route, date, seat, and status.",
+      "priority": "priority: medium",
+      "type": "type: user-story",
+      "sprint": 4,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-10",
+      "title": "[US-10] Ticket Cancellation & Immediate Seat Recovery",
+      "body": "### User Story\n**As a** passenger,  \n**I want** to cancel an existing ticket reservation,  \n**So that** my seat is immediately recycled for other passengers to book.\n\n### Story Points: 5 | Priority: High (Must Have)\n### Target Sprint: Sprint 4\n\n### Acceptance Criteria\n- [x] Sets booking status to Cancelled.\n- [x] Atomically resets seat is_booked = 0.\n- [x] Prevents duplicate cancellation.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 4,
+      "story_points": 5,
+      "status": "Done"
+    },
+    {
+      "code": "US-11",
+      "title": "[US-11] Operator Passenger Manifest & Fleet Audit",
+      "body": "### User Story\n**As an** operator or administrator,  \n**I want** to view all passenger bookings across buses,  \n**So that** I can audit vehicle occupancy and revenue.\n\n### Story Points: 3 | Priority: Low (Could Have)\n### Target Sprint: Sprint 5\n\n### Acceptance Criteria\n- [x] Centralized view across all departures and passengers.\n- [x] Displays total bookings and revenue metrics.",
+      "priority": "priority: low",
+      "type": "type: user-story",
+      "sprint": 5,
+      "story_points": 3,
+      "status": "Done"
+    },
+    {
+      "code": "US-12",
+      "title": "[US-12] In-App Scrum Backlog, Sprint & Kanban Engine",
+      "body": "### User Story\n**As a** Scrum team member,  
+**I want** to track user stories and Kanban board within the software,  
+**So that** our team practices transparent Agile software engineering.\n\n### Story Points: 8 | Priority: High (Must Have)\n### Target Sprint: Sprint 5\n\n### Acceptance Criteria\n- [x] Persistent SQLite user stories and sprints tables.\n- [x] Terminal ASCII Kanban board with 5 columns.\n- [x] Web interactive Kanban board at /kanban.",
+      "priority": "priority: high",
+      "type": "type: user-story",
+      "sprint": 5,
+      "story_points": 8,
+      "status": "Done"
+    }
+  ]
+}

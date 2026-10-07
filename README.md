@@ -182,7 +182,58 @@ To view the live Kanban board:
 
 ---
 
-## 11. Project Directory Structure
+## 11. One-Click GitHub Scrum Project Setup (Self-Contained Distribution)
+
+This PBL includes a fully automated **One-Click GitHub Project Setup Wizard** (`setup-project.bat`) designed for seamless distribution to teammates and evaluators. When extracting this project into any fresh repository, the wizard configures GitHub Issues, Labels, Milestones, and the Kanban Project board automatically using the user's personal GitHub account — **with zero hardcoded tokens, usernames, or repository names**.
+
+### Step-by-Step Setup Guide for Evaluators & Teammates
+
+#### Step 1: Create your own GitHub repository
+Create a fresh repository on your own GitHub account (e.g., `https://github.com/YOUR_USERNAME/bus-booking-system`).
+
+#### Step 2: Clone your repository
+```bash
+git clone https://github.com/YOUR_USERNAME/bus-booking-system.git
+cd bus-booking-system
+```
+
+#### Step 3: Copy/extract this PBL into the repository
+Extract or copy all files from this project ZIP into your cloned repository directory.
+
+#### Step 4: Open the repository folder
+Open the terminal or Windows File Explorer inside the repository root.
+
+#### Step 5: Run the setup wizard
+Double-click `setup-project.bat` or run:
+```bash
+setup-project.bat
+```
+
+#### Step 6: Authenticate with your GitHub account
+If not already authenticated, the wizard guides you through secure browser login using GitHub CLI (`gh auth login`). No passwords or tokens are stored in the project.
+
+#### Step 7: Automatic repository detection
+The script automatically parses your remote origin URL, detecting your GitHub username and repository name for both HTTPS and SSH remotes without manual typing.
+
+#### Step 8: Automated artifact configuration
+The script reads `.github/project-setup.json` and automatically sets up:
+- **Agile Color Labels:** Priority (`priority: high`, `priority: medium`, `priority: low`), type, and status labels.
+- **Sprint Milestones:** Sprint 1 through Sprint 5.
+- **GitHub Issues:** Populates all 12 User Stories with story points, sprint targets, and Gherkin acceptance checklists.
+- **Duplicate Prevention:** Safe to run repeatedly; checks existing issue codes (`[US-XX]`) to ensure zero duplicate creation.
+- **GitHub Projects V2 Kanban Board:** Creates or links a GitHub Project Kanban board and populates all issues into it.
+
+#### Step 9: Open your Live GitHub Project
+The wizard outputs your direct GitHub Project URL:
+```text
+>> OPEN YOUR GITHUB SCRUM BOARD HERE:
+   https://github.com/users/YOUR_USERNAME/projects/XX
+```
+You can also open your repository's **Projects** tab to view your interactive Scrum Kanban board.
+
+---
+
+## 12. Project Directory Structure
 
 ```text
 bus-booking-system/
