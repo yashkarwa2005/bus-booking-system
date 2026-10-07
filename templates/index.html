@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BusFlow | Bus Booking System (Scrum Agile PBL)</title>
+  <style>
+    :root {
+      --bg-primary: #0a0f1d;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-card-hover: #283548;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.25);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --radius: 12px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .brand-badge {
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid var(--accent);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent);
+      color: #60a5fa;
+    }
+    .nav-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .nav-btn.primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.12) 0%, rgba(10, 15, 29, 0) 100%);
+      padding: 40px 28px 24px 28px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto 20px auto;
+    }
+    .author-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+
+    /* KPI Cards */
+    .kpi-container {
+      max-width: 1200px;
+      margin: 0 auto 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+    .kpi-card.green::before { background: var(--success); }
+    .kpi-card.orange::before { background: var(--warning); }
+    .kpi-card.purple::before { background: var(--purple); }
+    .kpi-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px 40px 20px;
+      flex: 1;
+    }
+
+    /* Tab Controls */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: var(--accent);
+    }
+
+    /* Tab Content Panels */
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Search & Filter Bar */
+    .search-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 130px;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .form-control {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+    .btn-search {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      height: 42px;
+    }
+    .btn-search:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Bus Schedule Cards Grid */
+    .schedules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+    .bus-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .bus-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+    .bus-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .bus-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .bus-type-badge {
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid var(--accent);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .route-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+    .time-fare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .fare-tag {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+    .seats-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .badge-vacant {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .btn-select-seats {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s ease;
+    }
+    .btn-select-seats:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Seat Layout Matrix Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 580px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Bus Seat Layout */
+    .bus-layout {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .bus-steering {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      margin-bottom: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .seats-grid-map {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .seat-box {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--success);
+      color: #6ee7b7;
+      padding: 12px 6px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .seat-box:hover:not(.booked) {
+      background: var(--accent);
+      border-color: #60a5fa;
+      color: white;
+    }
+    .seat-box.selected {
+      background: var(--accent);
+      border-color: #60a5fa;
+      color: white;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .seat-box.booked {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: var(--danger);
+      color: #fca5a5;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* Tables */
+    .table-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      padding: 14px 18px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+    }
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .status-badge.confirmed {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+    .status-badge.cancelled {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+    .btn-cancel {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-cancel:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      z-index: 2000;
+      box-shadow: var(--shadow);
+    }
+    .toast.success { background: #065f46; color: #a7f3d0; border: 1px solid var(--success); }
+    .toast.error { background: #7f1d1d; color: #fecaca; border: 1px solid var(--danger); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">&#128652;</div>
+      <div>
+        <div class="brand-title">BusFlow</div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">Bus Booking System (Scrum PBL)</div>
+      </div>
+      <span class="brand-badge">Agile AM PBL</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="/kanban" target="_blank" class="nav-btn primary">
+        <span>&#128203;</span> Interactive Kanban Board
+      </a>
+      <button class="nav-btn" onclick="openLoginModal()">
+        <span id="navUserLabel">&#128100; Log In</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <div class="hero">
+    <h1>Online Bus Booking & Reservation System</h1>
+    <p>High-reliability intercity bus discovery, seat selection, and atomic reservation powered by Scrum Agile methodology.</p>
+    <div class="author-tag">
+      <span>&#127891; Student: <strong>Archita</strong> (B.Tech 3rd Year)</span>
+      <span>|</span>
+      <span>&#128202; Course: Agile Methodologies & IT (AM)</span>
+      <span>|</span>
+      <span>&#9989; 16 Automated Tests Passed</span>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-container">
+    <div class="kpi-card">
+      <div class="kpi-title">Active Fleet</div>
+      <div class="kpi-value" id="kpiBuses">4 Buses</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-title">Travel Corridors</div>
+      <div class="kpi-value" id="kpiRoutes">5 Routes</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-title">Scheduled Departures</div>
+      <div class="kpi-value" id="kpiSchedules">6 Active</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-title">Confirmed Bookings</div>
+      <div class="kpi-value" id="kpiBookings">--</div>
+    </div>
+  </div>
+
+  <!-- Main Workspace Tabs -->
+  <main>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('tabSchedules')">&#128652; Search & Book Buses</button>
+      <button class="tab-btn" onclick="switchTab('tabMyBookings')">&#127915; My Bookings</button>
+      <button class="tab-btn" onclick="switchTab('tabFleet')">&#128506;&#65039; Fleet & Routes</button>
+      <button class="tab-btn" onclick="switchTab('tabScrum')">&#127919; Agile Scrum Metrics</button>
+    </div>
+
+    <!-- TAB 1: Search & Book Buses -->
+    <div id="tabSchedules" class="tab-panel active">
+      <div class="search-box">
+        <div class="form-group">
+          <label>Origin City</label>
+          <input type="text" id="srcCity" class="form-control" placeholder="e.g. Pune, Mumbai">
+        </div>
+        <div class="form-group">
+          <label>Destination City</label>
+          <input type="text" id="dstCity" class="form-control" placeholder="e.g. Mumbai, Goa, Bangalore">
+        </div>
+        <div class="form-group">
+          <label>Travel Date</label>
+          <input type="date" id="travelDate" class="form-control">
+        </div>
+        <button class="btn-search" onclick="loadSchedules()">&#128269; Find Buses</button>
+      </div>
+
+      <div class="schedules-grid" id="schedulesGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- TAB 2: My Bookings -->
+    <div id="tabMyBookings" class="tab-panel">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking Ref</th>
+              <th>Passenger</th>
+              <th>Route</th>
+              <th>Travel Date</th>
+              <th>Seat</th>
+              <th>Fare</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTableBody">
+            <!-- Dynamic bookings -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: Fleet & Routes -->
+    <div id="tabFleet" class="tab-panel">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <h3 style="margin-bottom: 12px;">&#128652; Registered Bus Fleet</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Bus Number</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Seats</th>
+                </tr>
+              </thead>
+              <tbody id="fleetTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom: 12px;">&#128734;&#65039; Intercity Corridors</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Distance</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="routesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: Agile Scrum Metrics -->
+    <div id="tabScrum" class="tab-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3>&#128202; 5-Week Scrum Sprint Cadence & Progress</h3>
+        <a href="/kanban" target="_blank" class="nav-btn primary">&#128203; Open Terminal/Web Kanban Board</a>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Sprint</th>
+              <th>Theme / Goal</th>
+              <th>Committed</th>
+              <th>Completed</th>
+              <th>Completion Rate</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sprintsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Seat Selection & Booking Modal -->
+  <div class="modal-overlay" id="seatModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalBusName">Select Your Seat</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);" id="modalRouteInfo"></div>
+        </div>
+        <button class="modal-close" onclick="closeSeatModal()">&times;</button>
+      </div>
+
+      <div class="bus-layout">
+        <div class="bus-steering">&#128270; FRONT / DRIVER CABIN</div>
+        <div class="seats-grid-map" id="seatsMap"></div>
+      </div>
+
+      <div style="display: flex; gap: 14px; font-size: 0.8rem; justify-content: center;">
+        <span style="color: #6ee7b7;">&#9632; Available</span>
+        <span style="color: #60a5fa;">&#9632; Selected</span>
+        <span style="color: #fca5a5;">&#9632; Booked</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label>Passenger Name</label>
+          <input type="text" id="modalPassName" class="form-control" value="Archita">
+        </div>
+        <div class="form-group">
+          <label>Selected Seat</label>
+          <input type="text" id="modalSelectedSeat" class="form-control" readonly placeholder="Click a seat">
+        </div>
+        <div class="form-group">
+          <label>Passenger Age</label>
+          <input type="number" id="modalPassAge" class="form-control" value="21">
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select id="modalPassGender" class="form-control">
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-select-seats" style="padding: 12px; font-size: 1rem;" onclick="confirmBooking()">
+        &#9889; Confirm Atomic Ticket Reservation
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <footer>
+    BusFlow &copy; 2026 | B.Tech Agile Methodologies (AM) Project-Based Learning Submission<br>
+    Author / Scrum Lead: <strong>Archita</strong> | Dual-Track Architecture: SQLite + Python Standard Library HTTP
+  </footer>
+
+  <script>
+    let currentScheduleId = null;
+    let selectedSeatNumber = null;
+    let currentUser = { id: 1, name: "Archita", role: "passenger" };
+
+    function showToast(msg, isSuccess = true) {
+      const t = document.getElementById("toast");
+      t.className = `toast ${isSuccess ? "success" : "error"}`;
+      t.innerText = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 3500);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      event.currentTarget.classList.add("active");
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch("/api/stats");
+        const data = await res.json();
+        document.getElementById("kpiBuses").innerText = `${data.total_buses} Buses`;
+        document.getElementById("kpiRoutes").innerText = `${data.total_routes} Routes`;
+        document.getElementById("kpiSchedules").innerText = `${data.total_schedules} Active`;
+        document.getElementById("kpiBookings").innerText = `${data.total_bookings} Confirmed`;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function loadSchedules() {
+      const src = document.getElementById("srcCity").value;
+      const dst = document.getElementById("dstCity").value;
+      const dt = document.getElementById("travelDate").value;
+
+      let url = "/api/schedules?";
+      if (src) url += `source=${encodeURIComponent(src)}&`;
+      if (dst) url += `destination=${encodeURIComponent(dst)}&`;
+      if (dt) url += `date=${encodeURIComponent(dt)}&`;
+
+      const res = await fetch(url);
+      const schedules = await res.json();
+      const grid = document.getElementById("schedulesGrid");
+      grid.innerHTML = "";
+
+      if (schedules.length === 0) {
+        grid.innerHTML = "<div style='color: var(--text-muted); padding: 20px;'>No bus schedules found matching criteria.</div>";
+        return;
+      }
+
+      schedules.forEach(s => {
+        const card = document.createElement("div");
+        card.className = "bus-card";
+        card.innerHTML = `
+          <div class="bus-card-header">
+            <div>
+              <div class="bus-title">${s.bus_name}</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">${s.bus_number}</div>
+            </div>
+            <span class="bus-type-badge">${s.bus_type}</span>
+          </div>
+          <div class="route-row">
+            <span>${s.source}</span>
+            <span>&rarr;</span>
+            <span>${s.destination}</span>
+          </div>
+          <div class="time-fare-row">
+            <div>
+              <div style="font-weight: 600;">${s.travel_date}</div>
+              <div style="color: var(--text-muted); font-size: 0.8rem;">${s.departure_time} - ${s.arrival_time}</div>
+            </div>
+            <div class="fare-tag">&#8377; ${s.fare}</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="seats-left">
+              <span class="badge-vacant">${s.available_seats} Available</span>
+              <span>of ${s.total_seats}</span>
+            </div>
+            <button class="btn-select-seats" onclick="openSeatModal(${s.schedule_id}, '${s.bus_name}', '${s.source} to ${s.destination}')">
+              Select Seat &rarr;
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function openSeatModal(scheduleId, busName, route) {
+      currentScheduleId = scheduleId;
+      selectedSeatNumber = null;
+      document.getElementById("modalBusName").innerText = busName;
+      document.getElementById("modalRouteInfo").innerText = route;
+      document.getElementById("modalSelectedSeat").value = "";
+
+      const res = await fetch(`/api/seats?schedule_id=${scheduleId}`);
+      const seats = await res.json();
+      const map = document.getElementById("seatsMap");
+      map.innerHTML = "";
+
+      seats.forEach(s => {
+        const box = document.createElement("div");
+        box.className = `seat-box ${s.is_booked ? "booked" : ""}`;
+        box.innerText = s.seat_number;
+        if (!s.is_booked) {
+          box.onclick = () => {
+            document.querySelectorAll(".seat-box").forEach(b => b.classList.remove("selected"));
+            box.classList.add("selected");
+            selectedSeatNumber = s.seat_number;
+            document.getElementById("modalSelectedSeat").value = s.seat_number;
+          };
+        }
+        map.appendChild(box);
+      });
+
+      document.getElementById("seatModal").classList.add("active");
+    }
+
+    function closeSeatModal() {
+      document.getElementById("seatModal").classList.remove("active");
+    }
+
+    async function confirmBooking() {
+      if (!selectedSeatNumber) {
+        showToast("Please pick a seat first!", false);
+        return;
+      }
+      const passName = document.getElementById("modalPassName").value;
+      const age = parseInt(document.getElementById("modalPassAge").value) || 21;
+      const gender = document.getElementById("modalPassGender").value;
+
+      try {
+        const res = await fetch("/api/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: currentUser.id,
+            schedule_id: currentScheduleId,
+            seat_number: selectedSeatNumber,
+            passenger_name: passName,
+            passenger_age: age,
+            passenger_gender: gender
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast(`Booking Confirmed! Ref: ${data.booking.booking_ref} (Seat ${data.booking.seat_number})`);
+          closeSeatModal();
+          loadSchedules();
+          loadBookings();
+          loadStats();
+        } else {
+          showToast(data.error || "Booking failed", false);
+        }
+      } catch (err) {
+        showToast("Server error during booking", false);
+      }
+    }
+
+    async function loadBookings() {
+      const res = await fetch(`/api/bookings?user_id=${currentUser.id}`);
+      const bookings = await res.json();
+      const tbody = document.getElementById("bookingsTableBody");
+      tbody.innerHTML = "";
+
+      if (bookings.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='8' style='text-align: center; color: var(--text-muted);'>No bookings found.</td></tr>";
+        return;
+      }
+
+      bookings.forEach(b => {
+        const tr = document.createElement("tr");
+        const isConf = b.status === "Confirmed";
+        tr.innerHTML = `
+          <td><strong>${b.booking_ref}</strong></td>
+          <td>${b.passenger_name} (${b.passenger_age}, ${b.passenger_gender})</td>
+          <td>${b.source} &rarr; ${b.destination}</td>
+          <td>${b.travel_date} ${b.departure_time}</td>
+          <td><span style="font-weight: 700; color: #38bdf8;">${b.seat_number}</span></td>
+          <td>&#8377; ${b.total_fare}</td>
+          <td><span class="status-badge ${isConf ? 'confirmed' : 'cancelled'}">${b.status}</span></td>
+          <td>
+            ${isConf ? `<button class="btn-cancel" onclick="cancelTicket(${b.booking_id})">&#10006; Cancel</button>` : '<span style="color: var(--text-muted); font-size: 0.8rem;">Recycled</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function cancelTicket(bookingId) {
+      if (!confirm("Are you sure you want to cancel this booking? The seat will be recycled immediately.")) return;
+      try {
+        const res = await fetch("/api/cancel", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ booking_id: bookingId, user_id: currentUser.id })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast(data.result.message);
+          loadBookings();
+          loadSchedules();
+          loadStats();
+        } else {
+          showToast(data.error, false);
+        }
+      } catch (e) {
+        showToast("Cancellation failed", false);
+      }
+    }
+
+    async function loadFleetAndRoutes() {
+      const bRes = await fetch("/api/buses");
+      const buses = await bRes.json();
+      const bBody = document.getElementById("fleetTableBody");
+      bBody.innerHTML = buses.map(b => `
+        <tr>
+          <td><strong>${b.bus_number}</strong></td>
+          <td>${b.bus_name}</td>
+          <td>${b.bus_type}</td>
+          <td>${b.total_seats}</td>
+        </tr>
+      `).join("");
+
+      const rRes = await fetch("/api/routes");
+      const routes = await rRes.json();
+      const rBody = document.getElementById("routesTableBody");
+      rBody.innerHTML = routes.map(r => `
+        <tr>
+          <td>${r.source}</td>
+          <td>${r.destination}</td>
+          <td>${r.distance_km} km</td>
+          <td>${r.duration_hours} hrs</td>
+        </tr>
+      `).join("");
+    }
+
+    async function loadSprints() {
+      const res = await fetch("/api/sprints");
+      const sprints = await res.json();
+      const sBody = document.getElementById("sprintsTableBody");
+      sBody.innerHTML = sprints.map(s => `
+        <tr>
+          <td><strong>Sprint ${s.sprint_number}</strong></td>
+          <td>${s.name}<br><small style="color: var(--text-muted);">${s.goal}</small></td>
+          <td>${s.committed_points} pts</td>
+          <td>${s.completed_points} pts</td>
+          <td>
+            <div style="background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; height: 10px; width: 100px;">
+              <div style="background: var(--success); width: ${s.completion_percentage}%; height: 100%;"></div>
+            </div>
+            <small>${s.completion_percentage}%</small>
+          </td>
+          <td><span class="status-badge confirmed">${s.status}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function openLoginModal() {
+      alert("Current session is authenticated as Passenger: Archita (ID: 1).");
+    }
+
+    // Initial Load
+    window.addEventListener("DOMContentLoaded", () => {
+      loadStats();
+      loadSchedules();
+      loadBookings();
+      loadFleetAndRoutes();
+      loadSprints();
+    });
+  </script>
+</body>
+</html>
