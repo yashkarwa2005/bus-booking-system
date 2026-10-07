@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agile Scrum Kanban Board | Bus Booking System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --bg-col: #0f141c;
+      --border: #30363d;
+      --border-focus: #58a6ff;
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+
+      /* Priority Colors */
+      --prio-high-bg: rgba(248, 81, 73, 0.15);
+      --prio-high-border: #f85149;
+      --prio-high-text: #ff7b72;
+
+      --prio-med-bg: rgba(210, 153, 34, 0.15);
+      --prio-med-border: #d29922;
+      --prio-med-text: #e3b341;
+
+      --prio-low-bg: rgba(46, 160, 67, 0.15);
+      --prio-low-border: #2ea043;
+      --prio-low-text: #56d364;
+
+      --blue-accent: #1f6feb;
+      --purple-accent: #8957e5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(22, 27, 34, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .board-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .repo-tag {
+      background: rgba(56, 139, 253, 0.15);
+      color: #58a6ff;
+      border: 1px solid rgba(56, 139, 253, 0.4);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .author-pill {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Board Layout */
+    .kanban-container {
+      display: flex;
+      gap: 16px;
+      padding: 24px;
+      overflow-x: auto;
+      flex: 1;
+      align-items: flex-start;
+    }
+    .kanban-col {
+      background: var(--bg-col);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 320px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 120px);
+    }
+    .col-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .badge-count {
+      background: var(--border);
+      color: var(--text-main);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+    }
+    .col-body {
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    /* Kanban Card */
+    .k-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      position: relative;
+    }
+    .k-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-focus);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #79c0ff;
+    }
+    .badge-prio {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-prio.high {
+      background: var(--prio-high-bg);
+      border: 1px solid var(--prio-high-border);
+      color: var(--prio-high-text);
+    }
+    .badge-prio.medium {
+      background: var(--prio-med-bg);
+      border: 1px solid var(--prio-med-border);
+      color: var(--prio-med-text);
+    }
+    .badge-prio.low {
+      background: var(--prio-low-bg);
+      border: 1px solid var(--prio-low-border);
+      color: var(--prio-low-text);
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 8px;
+    }
+    .badge-pts {
+      background: rgba(137, 87, 229, 0.2);
+      border: 1px solid var(--purple-accent);
+      color: #d2a8ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .move-btn-group {
+      display: flex;
+      gap: 4px;
+    }
+    .btn-move {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .btn-move:hover {
+      background: var(--border-focus);
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="board-title">
+        <span>&#128203;</span>
+        <span>BusFlow &bull; Live Scrum Kanban Board</span>
+      </div>
+      <a href="https://github.com/yashkarwa2005/bus-booking-system" target="_blank" class="repo-tag">
+        yashkarwa2005/bus-booking-system
+      </a>
+    </div>
+    <div class="author-pill">
+      Student / Scrum Lead: <strong>Archita</strong> | Course: Agile Methodologies (AM)
+    </div>
+  </header>
+
+  <div class="kanban-container" id="kanbanBoard">
+    <!-- 5 Columns Generated Dynamically -->
+  </div>
+
+  <script>
+    const COLUMNS = ["Backlog", "To Do", "In Progress", "Review/Testing", "Done"];
+
+    function getPriorityClass(prio) {
+      const p = (prio || "").toLowerCase();
+      if (p.includes("must") || p.includes("high")) return "high";
+      if (p.includes("should") || p.includes("med")) return "medium";
+      return "low";
+    }
+
+    async function fetchBoard() {
+      try {
+        const res = await fetch("/api/kanban");
+        const board = await res.json();
+        renderBoard(board);
+      } catch (err) {
+        console.error("Error loading Kanban:", err);
+      }
+    }
+
+    function renderBoard(board) {
+      const container = document.getElementById("kanbanBoard");
+      container.innerHTML = "";
+
+      COLUMNS.forEach((colName, colIdx) => {
+        const items = board[colName] || [];
+        const colDiv = document.createElement("div");
+        colDiv.className = "kanban-col";
+
+        colDiv.innerHTML = `
+          <div class="col-header">
+            <span>${colName}</span>
+            <span class="badge-count">${items.length}</span>
+          </div>
+          <div class="col-body" id="col-${colIdx}">
+          </div>
+        `;
+        container.appendChild(colDiv);
+
+        const bodyDiv = colDiv.querySelector(".col-body");
+        items.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "k-card";
+          const prioClass = getPriorityClass(item.priority);
+
+          let moveButtons = "";
+          if (colIdx > 0) {
+            moveButtons += `<button class="btn-move" onclick="moveCard('${item.code}', '${COLUMNS[colIdx - 1]}')">&larr;</button>`;
+          }
+          if (colIdx < COLUMNS.length - 1) {
+            moveButtons += `<button class="btn-move" onclick="moveCard('${item.code}', '${COLUMNS[colIdx + 1]}')">&rarr;</button>`;
+          }
+
+          card.innerHTML = `
+            <div class="card-top">
+              <span class="card-code">${item.code}</span>
+              <span class="badge-prio ${prioClass}">${item.priority}</span>
+            </div>
+            <div class="card-title">${item.title}</div>
+            <div class="card-footer">
+              <span class="badge-pts">${item.points} pt</span>
+              <span>${item.assignee}</span>
+              <div class="move-btn-group">
+                ${moveButtons}
+              </div>
+            </div>
+          `;
+          bodyDiv.appendChild(card);
+        });
+      });
+    }
+
+    async function moveCard(code, targetColumn) {
+      try {
+        const res = await fetch("/api/kanban/move", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: code, target_column: targetColumn })
+        });
+        if (res.ok) {
+          fetchBoard();
+        }
+      } catch (err) {
+        console.error("Move error:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", fetchBoard);
+  </script>
+</body>
+</html>
